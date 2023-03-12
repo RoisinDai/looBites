@@ -9,8 +9,10 @@ def login():
 
 @app.route ('/register', methods=['GET'])
 def register():
-    username = request.args.get("username") 
-    password = request.args.get("password") 
+    username = request.args.get("username")
+    print(username)
+    password = request.args.get("password")
+    print(password) 
     con_password = request.args.get("con_password") 
 
     if not username or not password or not con_password:
@@ -24,7 +26,7 @@ def register():
     try:
         cursor = conn.cursor(cursor=mysql.connector.cursors.DictCursor)
         my_query = "SELECT * FROM user where usr = %s and password = %s"
-        cursor.execute(my_query, [username],password)
+        cursor.execute(my_query, [username,password])
         conn.commit()
 
         res = cursor.fetchall()
@@ -38,7 +40,7 @@ def register():
         return redirect(url_for('login'))
     else:
         try:
-            my_query = "INSERT INTO user(usr,password) VALUES(%s,%s)"
+            my_query = "INSERT INTO user(usr,password) VALUES(%s,%s);"
             cursor.execute(my_query, (username,password))
             conn.commit()
             #note
