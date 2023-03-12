@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Signup Page</title>
+    <link rel="stylesheet" href="static/loginSignUpPage/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js">
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="welcome">
+            <div class="pinkbox">
+                <div class="signup nodisplay">
+                    <h1>Register</h1>
+                    <form autocapitalize="off" action="/register" method="get">
+                        <input name="username" type="text" placeholder="Username">
+                        <input name="email" type="email" placeholder="Email">
+                        <input name="password" type="password" placeholder="Password">
+                        <input name="conpassword" type="password" placeholder="Confirm Password">
+                        <button class="button submit">Create Account</button>
+                    </form>
+                </div>
+
+                <div class="signin">
+                    <h1>Sign in</h1>
+                    <form class="more-padding" autocapitalize="off" action="/loginer" method="get">
+                        <input name="username" type="text" placeholder="Username">
+                        <input name="password" type="password" placeholder="Password">
+                        <button class="bottom submit">Login</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="leftbox">
+                <h2 class="title"><span>BITES</span>@<br>LOO</h2>
+                <p class="desc">Find your perfect <span>bite</span></p>
+                <img class="flower smaller" src="static/loginSignupPage/images/rice.PNG" />
+                <p class="account">Have an account?</p>
+                <button class="button" id="signin">Login</button>
+            </div>
+
+            <div class="rightbox">
+                <h2 class="title"><span>BITES</span>@<br>LOO</h2>
+                <p class="desc">Find your perfect <span>bite</span></p>
+                <img class="flower" src="static/loginSignupPage/images/burger.PNG" />
+                <p class="account">Don't have an account?</p>
+                <button class="button" id="signup">Sign up</button>
+            </div>
+        </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src='static/loginSignupPage/script.js'></script>
+</body>
+
+</html>
