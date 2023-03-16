@@ -67,12 +67,8 @@ The local host and port will show up in the terminal
  * Running on http://127.0.0.1:5000
  
  ### AWESOME pictures of the website
- ![Register](![sign up page](https://user-images.githubusercontent.com/125154836/225560324-386d34ef-52ed-4b21-b6e2-d6b7868dc825.PNG)
-)
-![Log-in](![Login page](https://user-images.githubusercontent.com/125154836/225560434-deccfcc7-9600-42f1-9254-41b17c30958f.PNG)
-)
-![Add or Search Restaurants](![Add or search restaurants](https://user-images.githubusercontent.com/125154836/225560551-cce61080-5dae-4e4b-817c-2483f86916ff.PNG)
-)
-![Find Relevant Bites](![Relevant Bites](https://user-images.githubusercontent.com/125154836/225560643-260c2ff3-945e-47a0-ac89-4a76ec51b21d.PNG)
-)
+https://user-images.githubusercontent.com/125154836/225560324-386d34ef-52ed-4b21-b6e2-d6b7868dc825.PNG
+https://user-images.githubusercontent.com/125154836/225560434-deccfcc7-9600-42f1-9254-41b17c30958f.PNG
+https://user-images.githubusercontent.com/125154836/225560551-cce61080-5dae-4e4b-817c-2483f86916ff.PNG
+https://user-images.githubusercontent.com/125154836/225560643-260c2ff3-945e-47a0-ac89-4a76ec51b21d.PNG
 
