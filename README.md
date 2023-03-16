@@ -65,7 +65,7 @@ python run.py
 The local host and port will show up in the terminal
  ```
  * Running on http://127.0.0.1:5000
- 
+ ````
  ### AWESOME pictures of the website
 ![Register](https://user-images.githubusercontent.com/125154836/225560324-386d34ef-52ed-4b21-b6e2-d6b7868dc825.PNG)
 ![Login](https://user-images.githubusercontent.com/125154836/225560434-deccfcc7-9600-42f1-9254-41b17c30958f.PNG)
