@@ -14,7 +14,7 @@
 
 <body>
 <!-- insert to page above header -->
-{% for message in get_flashed_message() %}
+{% for message in get_flashed_messages() %}
     <div class="alert">{{message}}</div>
 {% endfor %}
     <div class="container">

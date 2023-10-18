@@ -1,7 +1,12 @@
+import os
 from flask import Flask, flash, redirect, render_template, request, session, url_for
+
+import mysql.connector
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dev'
+showimg_path = './static/read_from_mysql.png'
 
 @app.route('/login')
 def login():
@@ -10,9 +15,7 @@ def login():
 @app.route ('/register', methods=['GET'])
 def register():
     username = request.args.get("username")
-    print(username)
     password = request.args.get("password")
-    print(password) 
     con_password = request.args.get("conpassword") 
 
     if not username or not password or not con_password:
@@ -22,27 +25,26 @@ def register():
         flash('The two entered passwords do not match!')
         return redirect(url_for('login'))
     
-    conn = mysql.connector.connect(host="local host",port=3306,user='root',password="yushan1022",charset="utf8",db='users')
+    conn = mysql.connector.connect(host="localhost",port=3306,user='root',password="yushan1022",charset="utf8",db='loobites')
     try:
-        cursor = conn.cursor(cursor=mysql.connector.cursors.DictCursor)
-        my_query = "SELECT * FROM user where usr = %s and password = %s"
-        cursor.execute(my_query, [username,password])
-        conn.commit()
-
+        cursor = conn.cursor()
+        my_query = "SELECT * FROM user where username = %s and password = %s"
+        cursor.execute(my_query, (username,password))
         res = cursor.fetchall()
+
     except:
-        flash('Failed to register new user, reason is unknown, please contact administrator!')
+        flash('Failed to register new user, reason is unknown, please contact administrator!') 
         conn.rollback()
         return redirect(url_for('login'))
 
     if res:
         cursor.close()
         conn.close()
-        flash('This user already exists! Please login, or re-enter your username!')
+        flash('This user already exists! Please login, or re-enter your username!') 
         return redirect(url_for('login'))
     else:
         try:
-            my_query = "INSERT INTO user(usr,password) VALUES(%s,%s);"
+            my_query = "INSERT INTO user(username,password) VALUES(%s,%s);"
             cursor.execute(my_query, (username,password))
             conn.commit()
             flash('New user has been registered, please proceed to login!"')
@@ -63,24 +65,22 @@ def loginer():
         flash('Please enter your full username and password! ')
         return redirect(url_for('login'))
     
-    conn = mysql.connector.connect(host="local host",port=3306,user='root',password="yushan1022",charset="utf8",db='users')
+    conn = mysql.connector.connect(host="localhost",port=3306,user='root',password="yushan1022",charset="utf8",db='loobites')
     try:
-        cursor = conn.cursor(cursor=mysql.connector.cursors.DictCursor)  
-        my_query = "SELECT * FROM user where usr = %s"
+        cursor = conn.cursor()  
+        my_query = "SELECT * FROM user where username = %s"
         cursor.execute(my_query, [username])
-        conn.commit()
-
         res = cursor.fetchall()
     except: 
+        print (1)
         flash('Login failed, reason is unknown, please contact administrator!')
         conn.rollback()
         return redirect(url_for('login'))
     
     if res:
         try:
-            my_query = "SELECT * FROM user WHERE usr = %s and password = %s"
+            my_query = "SELECT * FROM user WHERE username = %s and password = %s"
             cursor.execute(my_query, [username, password])
-            conn.commit()
             res = cursor.fetchall()
             cursor.close()
             conn.close
@@ -101,32 +101,107 @@ def loginer():
         return redirect(url_for('login'))
 
         
-
-@app.route('/')
+@app.route('/index')
 def index():
-    permission = session.get('login_success')
-    if not permission:
-        return redirect(url_for('login'))
-    return render_template('index.html')
+    return render_template('index.html',res=None, case =None)
 
+@app.route('/restaurant_mess',methods=["GET", "POST"])
+def action():
+    curname = request.form.get("curname")
+    curtype = request.form.get("curtype")
+    curtakeout = "yes" if request.form.get("curtakeout") =="on" else "no"
+    currating = request.form.get("currating")
+    curprice = request.form.get("curprice")
+    curremark = request.form.get("curremark")
+    if request.form.get('button', '') == 'submit':
+        submit(curname,curtype,curtakeout,currating,curprice,curremark)
+        flash('Submission successful!')
+        return redirect(url_for('index'))
+    elif request.form.get('button', '') == 'reset':
+        return redirect(url_for('index'))
+    elif request.form.get('button','') == 'search':
+        return search(curname)
+    elif request.form.get('button', '') == 'match':
+        return match(curname,curtype)
+    else:
+        flash('error')
+        return render_template('index.html', res=None, case=None)
+    
+def search(curname):
+    if not curname:
+        flash('Please enter the restaurant name before searching!')
+        return redirect(url_for('index'))
+    
+    conn = mysql.connector.connect(host="localhost",port=3306,user='root',password="yushan1022",charset="utf8",db='loobites')
+    try:
+        cursor = conn.cursor()  
+        my_query = "SELECT * FROM restaurant_info where name = %s"
+        cursor.execute(my_query,[curname])
+        res = cursor.fetchall()
+        cursor.close()
+        conn.close()
+    except: 
+        flash('Search failed, reason is unknown, please contact administrator!')
+        conn.rollback()
+        return redirect(url_for('index'))
+    
+    if res:
+        print(res[0])
+        return render_template('index.html',res=res[0])
+    else:
+        flash('This restaurant doesnt exist!')
+        return redirect(url_for('index'))
+
+def submit(curname,curtype,curtakeout,currating,curprice,curremark):
+    conn = mysql.connector.connect(host="localhost",port=3306,user='root',password="yushan1022",charset="utf8",db='loobites')
+    try:
+        cursor = conn.cursor()
+        my_query = "SELECT * FROM restaurant_info where name = %s"
+        cursor.execute(my_query,[curname])
+        res = cursor.fetchall()
+    except:
+        flash('Search failed, reason is unknown, please contact administrator!')
+        conn.rollback()
+        return redirect(url_for('index', res=None, case=None)) 
+    
+    if res:
+        flash("Restaurant already exists, please submit a different one!")
+        cursor.close()
+        conn.close()
+    else:
+        try:
+            cursor=conn.cursor()
+            my_query = "INSERT INTO restaurant_info(name,mealType,takeoutAvailable,rating,notes,priceRange) VALUES(%s,%s,%s,%s,%s,%s)"
+            cursor.execute(my_query,[curname,curtype,curtakeout,currating,curremark,curprice])
+            conn.commit()
+        except:
+            flash('Submission failed, error is unknown, please contact an adminstrator!')
+            conn.rollback()
+        cursor.close()
+        conn.close()
+
+
+def match(curname,curtype):
+    conn = mysql.connector.connect(host="localhost",port=3306,user='root',password="yushan1022",charset="utf8",db='loobites')
+    try:
+        case_query = "SELECT * FROM restaurant_info where mealType = %s ORDER BY RAND() LIMIT 3"
+        cursor=conn.cursor()
+        cursor.execute(case_query, [curtype])
+        case = cursor.fetchmany(3)
+    except:
+        flash('Match failed, reason is unknown, please contact administrator!')
+        conn.rollback()
+        return redirect(url_for('index'))
+    if not case:
+        flash('No such meal type in database, you should go eat more!')
+    cursor.close()
+    conn.close()
+    print(case)
+    return render_template('index.html',res=None, case=case)
+        
 
 if __name__ == '__main__':
     app.debug = True
     app.run()
 
-
-
-import mysql.connector
-
-conn = mysql.connector.connect(user='root',password='yushan1022',host='localhost',database='users',charset='utf8mb4',cursorclass=mysql.connector.cursors.Dictcursor)
-
-cursor = conn.cursor()
-
-sql = "select * from user"
-cursor.execute(sql)
-conn.commit()
-
-data = cursor,fetchall()
-
-print(data)
 

@@ -25,7 +25,7 @@ body {
     position: absolute;
     top: -10%;
     left: 5%;
-    background: #eac7cc;
+    background: #b6e9ed;
     width: 320px;
     height: 500px;
     border-radius: 5px;
@@ -93,7 +93,7 @@ p {
 }
 
 span {
-    color: #eac7cc;
+    color: #b6e9ed;
 }
 
 .flower {
@@ -126,7 +126,7 @@ button {
 }
 
 button:hover {
-    background: #eac7cc;
+    background: #b6e9ed;
     color: #f6f6f6;
     transition: background-color 1s ease-out;
 }
@@ -134,8 +134,8 @@ button:hover {
 .button {
     margin-top: 3%;
     background: #f6f6f6;
-    color: #eac7cc;
-    border: solid 1px #eac7cc;
+    color: #b6e9ed;
+    border: solid 1px #b6e9ed;
 }
 
 /* 表单样式 */
@@ -157,7 +157,7 @@ form {
 .submit {
     margin-top: 25px;
     padding: 12px;
-    border-color: #ce7d88;
+    border-color: #b6e9ed;
 }
 
 .submit:hover {
@@ -166,9 +166,9 @@ form {
 }
 
 input {
-    background: #eac7cc;
+    background: #b6e9ed;
     width: 65%;
-    color: #ce7d88;
+    color: #97E8ee;
     border: none;
     border-bottom: 1px solid rgba(246, 246, 246, .5);
     padding: 9px;
@@ -183,7 +183,7 @@ input::placeholder {
 }
 
 input:focus {
-    color: #ce7d88;
+    color: #97E8ee;
     outline: none;
     border-bottom: 1.2px solid rgba(206, 125, 136, .7);
     font-size: 1.0em;
@@ -196,7 +196,7 @@ input:focus::placeholder {
 
 label {
     font-family: "Open Sans", sans-serif;
-    color: #ce7d88;
+    color: #97E8ee;
     font-size: 0.8em;
     letter-spacing: 1px;
 }
@@ -211,10 +211,24 @@ label {
 
 input[type=checkbox] {
     width: 15px;
-    background: #ce7d88;
+    background: #97E8ee;
 }
 
 .checkbox input[type=checkbox]:checked+label {
-    color: #ce7d88;
+    color: #97E8ee;
     transition: 0.5s all ease;
+}
+
+.alert{
+    position: relative;
+    padding: 7px;
+    margin: 7px 0;
+    text-align: center;
+    font-weight: bolder;
+    border: 1px solid transparent;
+    color: #97E8ee;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    border-radius: 5px;
+
 }
